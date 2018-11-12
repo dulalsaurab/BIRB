@@ -1,7 +1,7 @@
 {
-  "name": "electron-quick-start",
+  "name": "BIRB",
   "version": "1.0.0",
-  "description": "A minimal Electron application",
+  "description": "A Distributed Social Media Application",
   "main": "main.js",
   "scripts": {
     "start": "electron ."
@@ -18,5 +18,11 @@
   "license": "CC0-1.0",
   "devDependencies": {
     "electron": "^3.0.4"
+  },
+  "dependencies": {
+    "electron-db": "^0.8.1",
+    "mysql2": "^1.6.4",
+    "realm": "^2.19.0",
+    "sequelize": "^4.41.2"
   }
 }

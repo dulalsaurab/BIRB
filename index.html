@@ -1,125 +1,196 @@
-
-<!doctype html>
-<html lang="en">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="">
-  <meta name="author" content="">
-  <link rel="icon" href="../../../../favicon.ico">
-
-  <title>BIRB - NDN</title>
-  <style>
-    /* Show it's not fixed to the top */
-    body {
-    min-height: 75rem;
-    }
-  </style>
-  <!-- Bootstrap core CSS -->
-  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
-
-  <!-- Custom styles for this template -->
-  <link href="navbar-top.css" rel="stylesheet">
-</head>
-
-<body>
-
-<nav class="navbar navbar-expand-md navbar-dark bg-dark mb-4">
-  <a class="navbar-brand" href="#">Birb</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse" aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-  <div class="collapse navbar-collapse" id="navbarCollapse">
-    <ul class="navbar-nav mr-auto">
-      <li class="nav-item active">
-        <a class="nav-link" href="#">A <span class="sr-only">(current)</span></a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="#">B</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link disabled" href="#">C</a>
-      </li>
-    </ul>
-    <form class="form-inline mt-2 mt-md-0">
-      <input class="form-control mr-sm-2" type="text" placeholder="Search" aria-label="Search">
-      <!--<button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>-->
-      <button class="btn btn-outline-success my-2 my-sm-0" type="submit">birb</button>
-
-    </form>
-  </div>
-</nav>
-<div class="row">
-    <div class="col-md-3">
-        <div class="card" style="width: 20rem"  >
-        <!--<img class="card-img-top" src="..." alt="Card image cap">-->
-        <div class="card-body" >
-          <h5 class="card-title">Card title</h5>
-          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-          <a href="#" class="btn btn-primary">Go somewhere</a>
-        </div>
-        </div>
-    </div>
-
-    <div class="col-md-6">
-    <main role="main" class="container">
-
-      <div class="card" style="width: ;">
-        <!--<img class="card-img-top" src="..." alt="Card image cap">-->
-        <div class="card-body">
-          <h5 class="card-title">Card title</h5>
-          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-          <a href="#" class="btn btn-primary">Go somewhere</a>
-        </div>
+<!DOCTYPE html>
+<html >
+   <head>
+      <meta charset="UTF-8">
+      <title>Birb: A decentralized Social Media </title>
+      <link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.6/css/bootstrap.min.css'>
+      <link rel='stylesheet prefetch' href='https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css'>
+      <link rel='stylesheet prefetch' href='https://cdnjs.cloudflare.com/ajax/libs/octicons/4.4.0/font/octicons.min.css'>
+      <!-- Custom css-->
+      <link rel="stylesheet" href="./css/style.css">
+      <script>if (typeof module === 'object') {window.module = module; module = undefined;}</script>
+      <script src='https://npmcdn.com/tether@1.2.4/dist/js/tether.min.js'></script>
+      <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
+      <script src='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.6/js/bootstrap.min.js'></script>
+      <script>if (window.module) module = window.module;</script>
+      <script>
+         const db = require('electron-db');
+         const electron = require('electron');
+         const app = electron.app || electron.remote.app;
+      </script>
+   </head>
+   <body>
+      <!-- Fixed top navbar -->
+      <div id="nav-placeholder">
       </div>
-      <div class="card" style="width: ;">
-        <!--<img class="card-img-top" src="..." alt="Card image cap">-->
-        <div class="card-body">
-          <h5 class="card-title">Card title</h5>
-          <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-          <a href="#" class="btn btn-primary">Go somewhere</a>
-        </div>
+      <script>
+         $(function(){
+           $("#nav-placeholder").load("navbar.html");
+         });
+      </script>
+      <!-- END: Fixed top navbar -->
+      <div class="main-container">
+      <nav class="navbar profile-stats">
+         <div class="container">
+            <div class="row">
+               <div class="col">
+               </div>
+               <div class="col">
+               </div>
+            </div>
+         </div>
+      </nav>
+      <div class="container main-content">
+         <div class="row">
+            <div class="col profile-col">
+               <!-- Left column -->
+               <div class="profile-header">
+                  <div class="card hovercard">
+                     <div class="cardheader">
+                     </div>
+                     <div class="avatar">
+                        <img alt="" src="https://pbs.twimg.com/profile_images/678236509732999169/NCLXTZzS_400x400.jpg">
+                     </div>
+                     <div class="info">
+                        <div class="title">
+                           <a target="_blank" href="#">Saurab Dulal</a>
+                        </div>
+                        <div class="desc">Curious Monkey</div>
+                     </div>
+                     <div class="bottom">
+                        <div class="row">
+                           <div class="col-md-4">
+                              <span class="profile-stats-item profile-stats-item-label">Followers</span>
+                              <span class="profile-stats-item profile-stats-item-number">241</span>
+                           </div>
+                           <div class="col-md-4">
+                              <span class="profile-stats-item profile-stats-item-label">Following</span>
+                              <span class="profile-stats-item profile-stats-item-number">241</span>
+                           </div>
+                           <div class="col-md-4">
+                              <span class="profile-stats-item profile-stats-item-label">Likes</span>
+                              <span class="profile-stats-item profile-stats-item-number">241</span>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <!-- End; Left column -->
+            <!-- Center content column -->
+            <div class="col-6">
+               <form method="post" id="pbirb" action="#">
+                  <div class="form-group">
+                     <label for="comment">What's bugging you today ?</label>
+                     <textarea name="birb_birb" class="form-control" rows="5" id="birb_birb"></textarea>
+                  </div>
+                  <button type="button" onclick="publish_birb()" class="btn btn-primary btn-sm pull-right">Small button</button>
+                  <br />
+                  <!-- <input type="submit" class="btn btn-info" value="Post Birb"> -->
+               </form>
+               <div id="birb_display"></div>
+               <!-- End: tweet list -->
+            </div>
+            <!-- End: Center content column -->
+            <div class="col right-col">
+               <div class="content-panel">
+                  <div class="panel-header">
+                     <h4>Suggested People</h4>
+                  </div>
+                  <!-- Who to Follow panel -->
+                  <div class="panel-content">
+                     <!--Follow list -->
+                     <ol class="tweet-list">
+                        <div id="tdeck_display"></div>
+                     </ol>
+                     <small><a href="#">Refresh</a></small><small><a href="#">View all</a></small>
+                     <!--END: Follow list -->
+                  </div>
+               </div>
+            </div>
+         </div>
       </div>
+      <script>
+         function sleep(ms) {
+           return new Promise(resolve => setTimeout(resolve, ms));
+         }
+         function data_insertion(value){
 
+           let obj = new Object();
+           obj.id = new Date().toLocaleString();
+           obj.birb_text = value;
+           db.insertTableContent('dulalsaurab', obj, (succ, msg) => {
+             // succ - boolean, tells if the call is successful
+             console.log("Success: " + succ);
+             console.log("Message: " + msg);
+           })
+         }
 
-      <div class="card-deck">
-        <div class="card bg-primary">
-          <div class="card-body text-center">
-            <p class="card-text">Some text inside the first card</p>
-          </div>
-        </div>
-        <div class="card bg-warning">
-          <div class="card-body text-center">
-            <p class="card-text">Some text inside the second card</p>
-          </div>
-        </div>
-        <div class="card bg-success">
-          <div class="card-body text-center">
-            <p class="card-text">Some text inside the third card</p>
-          </div>
-        </div>
-        <div class="card bg-danger">
-          <div class="card-body text-center">
-            <p class="card-text">Some text inside the fourth card</p>
-          </div>
-        </div>
-      </div>
+         function get_birb(){
+           var ret = null;
+           db.getAll('dulalsaurab', (succ, data) => {
+             // succ - boolean, tells if the call is successful
+             // data - array of objects that represents the rows.
+               ret = data;
+           })
+           return ret;
+         }
 
+          $( document ).ready(function() {
+            $.ajax({
+                   type: "GET",
+                   url: "http://75.65.50.70/birb_db/data_handler.php",
+                   data: "username", // serializes the form's elements.
+                   dataType:"json",
+                   success: function(data)
+                   {
+                      var html='<div>';
+                      for (var i in data) {
+                        html += '<li class="tweet-card"><div class="tweet-content"><img class="tweet-card-avatar" src="https://pbs.twimg.com/profile_images/679974972278849537/bzzb-6H4_bigger.jpg" alt="">'+
+                                '<div class="tweet-header"><span class="fullname"><strong>'+data[i]+'</strong></span></div><button class="btn btn-follow">get em\'</button></div></li>';
+                      }
+                      html += '</div>';
+                      console.log(html);
+                      $("#tdeck_display").append(html);
+                   }
+                 });
+                 var data = get_birb()
+                 display_birb(data);
+          });
 
+          async function publish_birb(){
+            // $("#pbirb").click(function(e) {
+                console.log("I came here")
+                var form = $("#pbirb");
+                var url = form.attr('action');
+                console.log("the form is submitted via tis method");
+                // console.log(form.serializeArray()[0].value)
+               // first check if the name exists or not, if exist insert the new birb, else create name and insert birb
+               data_insertion(form.serializeArray()[0].value);
+               await sleep(200);
+               display_birb(get_birb());
+          }
 
-
-    </main>
-    </div>
-  <div class="col-md-3">
-  </div>
-  </div>
-
-<!-- Bootstrap core JavaScript
-================================================== -->
-<!-- Placed at the end of the document so the pages load faster -->
-<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
-<!--<script>window.jQuery || document.write('<script src="../../assets/js/vendor/jquery-slim.min.js"><\/script>')</script>-->
-<!--<script src="../../assets/js/vendor/popper.min.js"></script>-->
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
-</body>
+         function display_birb(data){
+           var birb_content = '<div>';
+           for (var i in data.reverse()) {
+             birb_content +=  '<ol class="tweet-list"><li class="tweet-card"><div class="tweet-content"><div class="tweet-header">'+
+                               '<span class="fullname"><strong>dulalsaurab</strong></span>'+
+                               '<span class="tweet-time">- Jul 18</span></div><a>'+
+                               '<img class="tweet-card-avatar" src="https://pbs.twimg.com/profile_images/678236509732999169/NCLXTZzS_400x400.jpg" alt="">'+
+                               '</a><div class="tweet-text"><p class="" lang="es" data-aria-label-part="0">'+data[i]['birb_text']+
+                               '<a href="" class="twitter-hashtag"><s>#</s><b>firefox</b></a> <a href="" class="twitter-hashtag"><s>#</s><b>comunidad</b></a>'+
+                               '<a href="" class="twitter-hashtag" dir="ltr"></a></p></div><div class="tweet-footer"><a class="tweet-footer-btn">'+
+                               // '<i class="octicon octicon-comment" aria-hidden="true"></i>'+
+                               // '<span> 18</span>'+
+                               '</a><a class="tweet-footer-btn"><i class="octicon octicon-sync" aria-hidden="true"></i><span> 64</span>'+
+                               '</a><a class="tweet-footer-btn"><i class="octicon octicon-heart" aria-hidden="true"></i><span> 202</span>'+
+                               // '</a><a class="tweet-footer-btn"><i class="octicon octicon-mail" aria-hidden="true"></i><span> 155</span>'+
+                               '</a></div></div></li></ol>'
+           }
+           birb_content += '</div>';
+           $('#birb_display').html(birb_content);
+         }
+      </script>
+   </body>
 </html>
