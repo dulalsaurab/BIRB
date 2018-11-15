@@ -23,6 +23,7 @@
     "electron-db": "^0.8.1",
     "mysql2": "^1.6.4",
     "realm": "^2.19.0",
-    "sequelize": "^4.41.2"
+    "sequelize": "^4.41.2",
+    "shelljs": "^0.8.3"
   }
 }

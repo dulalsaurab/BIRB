@@ -82,9 +82,9 @@
                <form method="post" id="pbirb" action="#">
                   <div class="form-group">
                      <label for="comment">What's bugging you today ?</label>
-                     <textarea name="birb_birb" class="form-control" rows="5" id="birb_birb"></textarea>
+                     <textarea name="birb_birb" class="form-control" rows="5" id="birb_birb" required></textarea>
                   </div>
-                  <button type="button" onclick="publish_birb()" class="btn btn-primary btn-sm pull-right">Small button</button>
+                  <button type="button" onclick="publish_birb()" class="btn btn-primary btn-sm pull-right">Publish birb</button>
                   <br />
                   <!-- <input type="submit" class="btn btn-info" value="Post Birb"> -->
                </form>
@@ -119,7 +119,7 @@
            let obj = new Object();
            obj.id = new Date().toLocaleString();
            obj.birb_text = value;
-           db.insertTableContent('dulalsaurab', obj, (succ, msg) => {
+           db.insertTableContent('L_saurabdulal', obj, (succ, msg) => {
              // succ - boolean, tells if the call is successful
              console.log("Success: " + succ);
              console.log("Message: " + msg);
@@ -128,7 +128,7 @@
 
          function get_birb(){
            var ret = null;
-           db.getAll('dulalsaurab', (succ, data) => {
+           db.getAll('L_saurabdulal', (succ, data) => {
              // succ - boolean, tells if the call is successful
              // data - array of objects that represents the rows.
                ret = data;
@@ -160,15 +160,18 @@
 
           async function publish_birb(){
             // $("#pbirb").click(function(e) {
-                console.log("I came here")
-                var form = $("#pbirb");
-                var url = form.attr('action');
-                console.log("the form is submitted via tis method");
-                // console.log(form.serializeArray()[0].value)
-               // first check if the name exists or not, if exist insert the new birb, else create name and insert birb
-               data_insertion(form.serializeArray()[0].value);
-               await sleep(200);
-               display_birb(get_birb());
+              var form = $("#pbirb");
+              var url = form.attr('action');
+              // check if the value is empty or not
+              if (form.serializeArray()[0].value == "")
+                {alert("Text field is empty, please put some text");}
+              else{
+                data_insertion(form.serializeArray()[0].value);
+                await sleep(200);
+                // clean the textarea field
+                $('#birb_birb').val('');
+                display_birb(get_birb());
+              }
           }
 
          function display_birb(data){
@@ -179,7 +182,7 @@
                                '<span class="tweet-time">- Jul 18</span></div><a>'+
                                '<img class="tweet-card-avatar" src="https://pbs.twimg.com/profile_images/678236509732999169/NCLXTZzS_400x400.jpg" alt="">'+
                                '</a><div class="tweet-text"><p class="" lang="es" data-aria-label-part="0">'+data[i]['birb_text']+
-                               '<a href="" class="twitter-hashtag"><s>#</s><b>firefox</b></a> <a href="" class="twitter-hashtag"><s>#</s><b>comunidad</b></a>'+
+                               // ' <a href="" class="twitter-hashtag"><s>#</s><b>comunidad</b></a>'+
                                '<a href="" class="twitter-hashtag" dir="ltr"></a></p></div><div class="tweet-footer"><a class="tweet-footer-btn">'+
                                // '<i class="octicon octicon-comment" aria-hidden="true"></i>'+
                                // '<span> 18</span>'+

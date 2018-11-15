@@ -5,7 +5,8 @@ const path = require('path');
 
 
 const Store = require('./user_data/store.js');
-
+const birb = require('./user_data/birb.js');
+const _nfd = require('./lib/nfd_operations.js')
 // Keep a global reference of the window object, if you don't, the window will
 // be closed automatically when the JavaScript object is garbage collected.
 let mainWindow
@@ -49,6 +50,9 @@ function createWindow () {
 
 // When our app is ready, we'll create our BrowserWindow
 app.on('ready', function() {
+
+
+
   // First we'll get our height and width. This will be the defaults if there wasn't anything saved
   let { width, height } = store.get('windowBounds');
 

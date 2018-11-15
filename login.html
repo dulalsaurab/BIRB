@@ -5,7 +5,7 @@
       <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
       <meta name="description" content="">
       <meta name="author" content="">
-      <link rel="icon" href="../../../../favicon.ico">
+      <link rel="icon" href="">
       <title>BIRB - NDN</title>
       <style>
          /* Show it's not fixed to the top */
@@ -26,6 +26,7 @@
       <script src='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.6/js/bootstrap.min.js'></script>
       <!-- Insert this line after script imports -->
       <script type="text/javascript" src="./user_data/birb.js"></script>
+      <script type="text/javascript" src="./lib/user_management.js"></script>
       <script>if (window.module) module = window.module;</script>
    </head>
    <body>
@@ -39,7 +40,8 @@
       </script>
       <!--end of Navigation bar-->
       <div class="container">
-      <h4 class="text-center">Welcom to BIRBNT, BIRB is not Twitter</h4>
+      <h4 class="text-center">Welcom to BIRB </h4>
+        <p class="text-center">A Distributed Social Media Application</p>
       <br />
       <div class="jumbotron">
          <div class="row">
@@ -65,7 +67,7 @@
                         <div class="col-lg-12">
                            <form id="login-form" action="" method="post" role="form" style="display: block;">
                               <div class="form-group">
-                                 <input type="text" name="username" id="username" tabindex="1" class="form-control" placeholder="Username" value="">
+                                 <input type="text" name="username" id="username" tabindex="1" class="form-control" placeholder="Username" value="" required>
                               </div>
                               <div class="form-group text-center">
                                  <input type="checkbox" tabindex="3" class="" name="remember" id="remember">
@@ -81,12 +83,12 @@
                            </form>
                            <form id="register-form" action="http://75.65.50.70/birb_db/data_handler.php" method="post" role="form" style="display: none;">
                               <div class="form-group">
-                                 <input type="text" name="username" id="username" tabindex="1" class="form-control" placeholder="Username" value="">
+                                 <input type="text" name="username" id="username" tabindex="1" class="form-control" placeholder="Username" value="" required>
                               </div>
                               <div class="form-group">
                                  <div class="row">
                                     <div class="col-sm-6 col-sm-offset-3">
-                                       <input type="submit" name="register-submit" id="register-submit" tabindex="4" class="form-control btn btn-register" value="Register Now">
+                                       <input type="submit" name="register-submit" id="register-submit" tabindex="4" class="form-control btn btn-register" value="Register Now" required>
                                     </div>
                                  </div>
                               </div>
@@ -122,23 +124,40 @@
 
          // this is the id of the form
          $("#register-form").submit(function(e) {
+
+            /*
+              before registering the uesr to the application, a few things should be checked
+              1. check if a local user already exist or not
+              2. check if the username is available or not
+              note that, local user's table will start from L_username, and the followee table
+              will start from F_username
+            */
              var form = $(this);
              var url = form.attr('action');
-             console.log("the form is submitted via tis method");
-             $.ajax({
-                    type: "POST",
-                    url: url,
-                    data: form.serialize(), // serializes the form's elements.
-                    success: function(data)
-                    {
-                      // if a uesr is logged in successfully, crete a json.table to store his data
-                      // const birb = require('./user_data/birb.js'); //this will create a table for the user using username
-                      create_user(form.serializeArray()[0].value);
-                      window.location.href="index.html";
-                      $("#content").append(data);
-                    }
-                  });
+             var username = form.serializeArray()[0].value;
 
+
+             checkUniqueness(username).then(function(result){
+               if (result){
+                 console.log("Username already taken, please try again!!")
+               }
+               else
+               {
+                 $.ajax({
+                      type: "POST",
+                      url: url,
+                      data: form.serialize(), // serializes the form's elements.
+                      success: function(data)
+                        {
+                          // if a uesr is logged in successfully, crete a json.table to store his data
+                          // const birb = require('./user_data/birb.js'); //this will create a table for the user using username
+                          createUser(username, 'L'); //flag L indicates Local user, while F indicates followee
+                          window.location.href="index.html";
+                          $("#content").append(data);
+                        }
+                      });
+               }
+             });
              e.preventDefault(); // avoid to execute the actual submit of the form.
          });
 
