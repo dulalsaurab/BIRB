@@ -143,19 +143,20 @@
                }
                else
                {
-                 $.ajax({
-                      type: "POST",
-                      url: url,
-                      data: form.serialize(), // serializes the form's elements.
-                      success: function(data)
-                        {
-                          // if a uesr is logged in successfully, crete a json.table to store his data
-                          // const birb = require('./user_data/birb.js'); //this will create a table for the user using username
-                          createUser(username, 'L'); //flag L indicates Local user, while F indicates followee
-                          window.location.href="index.html";
-                          $("#content").append(data);
-                        }
-                      });
+                 console.log("Good Job");
+                 // $.ajax({
+                 //      type: "POST",
+                 //      url: url,
+                 //      data: form.serialize(), // serializes the form's elements.
+                 //      success: function(data)
+                 //        {
+                 //          // if a uesr is logged in successfully, crete a json.table to store his data
+                 //          // const birb = require('./user_data/birb.js'); //this will create a table for the user using username
+                 createUser(username, 'L'); //flag L indicates Local user, while F indicates followee
+                 //          window.location.href="index.html";
+                 //          $("#content").append(data);
+                 //        }
+                 //      });
                }
              });
              e.preventDefault(); // avoid to execute the actual submit of the form.

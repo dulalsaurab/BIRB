@@ -119,16 +119,47 @@
            let obj = new Object();
            obj.id = new Date().toLocaleString();
            obj.birb_text = value;
-           db.insertTableContent('L_saurabdulal', obj, (succ, msg) => {
+           // first get the last published sequence number and insert with lastSeqnumber+1
+           user_details = get_birb('L_dula_details');
+           if (!Array.isArray(user_details) || !user_details.length) {
+                   let obj_details = new Object();
+                   obj_details.name = "";
+                   obj_details.username = 'dula';
+                   obj_details.profile_url = "#";
+                   obj_details.last_seqnumber = 1;
+                   obj.seq_number = 1;
+                   insert_row('L_dula_details', obj_details)
+                }
+            // something was already publised earlier
+            else {
+                  var lsn = user_details[0].last_seqnumber;
+                  obj.seq_number = lsn+1; //this will be the sequence number of the birb
+                  let where = { "username": 'dula'};
+                  let set = { "last_seqnumber": lsn+1 }
+                  update_row('L_dula_details', where, set)
+                }
+          insert_row('L_dula_birb', obj)
+         }
+
+         function update_row(tablename, where, set){
+           db.updateRow(tablename, where, set, (succ, msg) => {
+            // succ - boolean, tells if the call is successful
+            console.log("Success: " + succ);
+            console.log("Message: " + msg);
+          });
+         }
+
+         function insert_row(tablename, obj){
+           db.insertTableContent(tablename, obj, (succ, msg) => {
              // succ - boolean, tells if the call is successful
              console.log("Success: " + succ);
              console.log("Message: " + msg);
-           })
+           });
          }
 
-         function get_birb(){
+         function get_birb(tableName){
            var ret = null;
-           db.getAll('L_saurabdulal', (succ, data) => {
+           db.getAll(tableName, (succ, data) => {
              // succ - boolean, tells if the call is successful
              // data - array of objects that represents the rows.
                ret = data;
@@ -150,11 +181,10 @@
                                 '<div class="tweet-header"><span class="fullname"><strong>'+data[i]+'</strong></span></div><button class="btn btn-follow">get em\'</button></div></li>';
                       }
                       html += '</div>';
-                      console.log(html);
                       $("#tdeck_display").append(html);
                    }
                  });
-                 var data = get_birb()
+                 var data = get_birb('L_dula_birb');
                  display_birb(data);
           });
 
@@ -170,7 +200,7 @@
                 await sleep(200);
                 // clean the textarea field
                 $('#birb_birb').val('');
-                display_birb(get_birb());
+                display_birb(get_birb('L_dula_birb'));
               }
           }
 
