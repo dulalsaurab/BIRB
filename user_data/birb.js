@@ -12,7 +12,10 @@ function createUser(username,flag) {
       var user_birb = "R_"+username+"_birb";
       var user_details = "R_"+username+"_details";
     }
-    // create two tables, one for storing birb, another for storing user details
+    /*
+      create two tables, one for storing birb,
+      another for storing user details 
+    */
 
     db.createTable(user_birb, (succ, msg) => {
       // succ - boolean, tells if the call is successful
