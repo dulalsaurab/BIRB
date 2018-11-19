@@ -12,19 +12,23 @@
       <script src='https://npmcdn.com/tether@1.2.4/dist/js/tether.min.js'></script>
       <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js'></script>
       <script src='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0-alpha.6/js/bootstrap.min.js'></script>
+      <!-- include birb.js -->
+      <script src='./user_data/birb.js'></script>
+      <script src='./lib/user_management.js'></script>
 
       <script>if (window.module) module = window.module;</script>
       <script>
-         const db = require('electron-db');
-         const electron = require('electron');
-         const app = electron.app || electron.remote.app;
-      </script>
-
-      <script>
-
-        var username = electron.remote.getGlobal('username')
-        console.log(window.username);
-
+         // const db = require('electron-db');
+         // const electron = require('electron');
+         // const app = electron.app || electron.remote.app;
+         /*
+            check if a user already exist, if not redirect him to login page
+         */
+         var username = electron.remote.getGlobal('obj').username.trim();
+         if(username==''){
+           console.log("You are not authorized to view this page!!");
+           window.location.replace("login.html");
+         }
       </script>
    </head>
    <body>
@@ -50,40 +54,8 @@
       </nav>
       <div class="container main-content">
          <div class="row">
-            <div class="col profile-col">
-               <!-- Left column -->
-               <div class="profile-header">
-                  <div class="card hovercard">
-                     <div class="cardheader">
-                     </div>
-                     <div class="avatar">
-                        <img alt="" src="https://pbs.twimg.com/profile_images/678236509732999169/NCLXTZzS_400x400.jpg">
-                     </div>
-                     <div class="info">
-                        <div class="title">
-                           <a target="_blank" href="#">Saurab Dulal</a>
-                        </div>
-                        <div class="desc">Curious Monkey</div>
-                     </div>
-                     <div class="bottom">
-                        <div class="row">
-                           <div class="col-md-4">
-                              <span class="profile-stats-item profile-stats-item-label">Followers</span>
-                              <span class="profile-stats-item profile-stats-item-number">241</span>
-                           </div>
-                           <div class="col-md-4">
-                              <span class="profile-stats-item profile-stats-item-label">Following</span>
-                              <span class="profile-stats-item profile-stats-item-number">241</span>
-                           </div>
-                           <div class="col-md-4">
-                              <span class="profile-stats-item profile-stats-item-label">Likes</span>
-                              <span class="profile-stats-item profile-stats-item-number">241</span>
-                           </div>
-                        </div>
-                     </div>
-                  </div>
-               </div>
-            </div>
+           <div id="profile_display"></div>
+
             <!-- End; Left column -->
             <!-- Center content column -->
             <div class="col-6">
@@ -119,34 +91,58 @@
          </div>
       </div>
       <script>
+        // some file globals
+         var L_user_detail_table_name = getTableNameFromUserName(username, 'L', 'details');
+         var L_user_birb_table_name = getTableNameFromUserName(username, 'L', 'birb');
+
          function sleep(ms) {
            return new Promise(resolve => setTimeout(resolve, ms));
          }
-         function data_insertion(value){
 
+         function getTableNameFromUserName(username, f_user, f_type){
+           /*
+            @params: f_localUser, identify if a user is local or remote
+            @params: f_type, identify if a table is detail table or birb table
+            flag will help to distinguish between userdetails table or user birb table
+           */
+           if (f_user=='L'){
+             if (f_type=='birb') { return "L_"+username+"_birb";}
+             else { return "L_"+username+"_details";}
+           }
+           else {
+             if (f_type=='birb') { return "R_"+username+"_birb";}
+             else { return "R_"+username+"_details";}
+           }
+        }
+
+         function data_insertion(value){
            let obj = new Object();
            obj.id = new Date().toLocaleString();
            obj.birb_text = value;
            // first get the last published sequence number and insert with lastSeqnumber+1
-           user_details = get_birb('L_dula_details');
-           if (!Array.isArray(user_details) || !user_details.length) {
-                   let obj_details = new Object();
-                   obj_details.name = "";
-                   obj_details.username = 'dula';
-                   obj_details.profile_url = "#";
-                   obj_details.last_seqnumber = 1;
-                   obj.seq_number = 1;
-                   insert_row('L_dula_details', obj_details)
-                }
-            // something was already publised earlier
-            else {
-                  var lsn = user_details[0].last_seqnumber;
-                  obj.seq_number = lsn+1; //this will be the sequence number of the birb
-                  let where = { "username": 'dula'};
-                  let set = { "last_seqnumber": lsn+1 }
-                  update_row('L_dula_details', where, set)
-                }
-          insert_row('L_dula_birb', obj)
+
+           var user_details = get_birb(L_user_detail_table_name);
+           // if (!Array.isArray(user_details) || !user_details.length) {
+           //         let obj_details = new Object();
+           //         obj_details.name = "";
+           //         obj_details.username = username;
+           //         obj_details.profile_url = "#";
+           //         obj_details.last_seqnumber = 1;
+           //         obj_details.followers=0;
+           //         obj_details.followings=0;
+           //         obj_details.likes=0;
+           //         insert_row(L_user_detail_table_name, obj_details)
+           //         obj.seq_number = 1;
+           //      }
+           //  // something was already publised earlier
+           //  else {
+          var lsn = user_details[0].last_seqnumber;
+          obj.seq_number = lsn+1; //this will be the sequence number of the birb
+          let where = { "username": username};
+          let set = { "last_seqnumber": lsn+1 }
+          update_row(L_user_detail_table_name, where, set)
+                // }
+          insert_row(L_user_birb_table_name, obj)
          }
 
          function update_row(tablename, where, set){
@@ -172,28 +168,57 @@
              // data - array of objects that represents the rows.
                ret = data;
            })
+           console.log(ret, "this is null")
            return ret;
          }
-
+         function list_follow_suggestions(){
+           $.ajax({
+                  type: "GET",
+                  url: "http://75.65.50.70/birb_db/data_handler.php",
+                  data: "username", // serializes the form's elements.
+                  dataType:"json",
+                  success: function(data)
+                  {
+                     /*
+                       before displaying the suggestion "whom to follow"
+                       check if the user has already followed a particular user or not
+                       if already followed do not display
+                     */
+                     let followee = getAllFollowedUser()
+                     console.log(followee)
+                     $( "#tdeck_display" ).empty();
+                     var html='<div>';
+                     for (var i in data) {
+                       console.log(data[i], username)
+                       if((!followee.includes(data[i])) && data[i] != username) {
+                         html += '<li class="tweet-card"><div class="tweet-content"><img class="tweet-card-avatar" src="https://pbs.twimg.com/profile_images/679974972278849537/bzzb-6H4_bigger.jpg" alt="">'+
+                                 '<div class="tweet-header"><span class="fullname"><strong>'+data[i]+'</strong></span></div><button class="btn btn-follow" onclick="follow_user(\''+data[i]+'\')">get em\'</button></div></li>';
+                       }
+                     }
+                     html += '</div>';
+                     $("#tdeck_display").append(html);
+                  }
+                });
+         }
           $( document ).ready(function() {
-            $.ajax({
-                   type: "GET",
-                   url: "http://75.65.50.70/birb_db/data_handler.php",
-                   data: "username", // serializes the form's elements.
-                   dataType:"json",
-                   success: function(data)
-                   {
-                      var html='<div>';
-                      for (var i in data) {
-                        html += '<li class="tweet-card"><div class="tweet-content"><img class="tweet-card-avatar" src="https://pbs.twimg.com/profile_images/679974972278849537/bzzb-6H4_bigger.jpg" alt="">'+
-                                '<div class="tweet-header"><span class="fullname"><strong>'+data[i]+'</strong></span></div><button class="btn btn-follow">get em\'</button></div></li>';
-                      }
-                      html += '</div>';
-                      $("#tdeck_display").append(html);
-                   }
-                 });
-                 var data = get_birb('L_dula_birb');
-                 display_birb(data);
+
+            // check if userdata has been initialized or not, if not initialize it
+            var user_details = get_birb(L_user_detail_table_name);
+            if (!Array.isArray(user_details) || !user_details.length) {
+                    let obj_details = new Object();
+                    obj_details.name = "";
+                    obj_details.username = username;
+                    obj_details.profile_url = "#";
+                    obj_details.last_seqnumber = 1;
+                    obj_details.followers=0;
+                    obj_details.followings=0;
+                    obj_details.likes=0;
+                    insert_row(L_user_detail_table_name, obj_details);
+                 }
+            list_follow_suggestions();
+            var data = get_birb(L_user_birb_table_name);
+            display_birb(data);
+            display_user_profile();
           });
 
           async function publish_birb(){
@@ -208,7 +233,7 @@
                 await sleep(200);
                 // clean the textarea field
                 $('#birb_birb').val('');
-                display_birb(get_birb('L_dula_birb'));
+                display_birb(get_birb(L_user_birb_table_name));
               }
           }
 
@@ -232,6 +257,49 @@
            birb_content += '</div>';
            $('#birb_display').html(birb_content);
          }
+         async function display_user_profile(){
+           /*
+              get local user profile
+           */
+           await sleep(200); //since the database are file operation, every insertion requires some delay :(
+           var data = get_birb(L_user_detail_table_name);
+           var profile_content = '<div>';
+           profile_content += '<div class="col profile-col"><div class="profile-header"><div class="card hovercard"><br />'+
+                              '<div class="cardheader"></div><div class="avatar"><img alt="" src="'+data[0].profile_url+'">'+
+                              '</div><div class="info"><div class="title"><a target="_blank" href="#">'+data[0].username+'</a>'+
+                              '</div><div class="desc">@'+data[0].username+'</div></div><div class="bottom"><div class="row">'+
+                              '<div class="col-md-4"><span class="profile-stats-item profile-stats-item-label">Followers</span>'+
+                              '<span class="profile-stats-item profile-stats-item-number">'+data[0].followers+'</span></div><div class="col-md-4">'+
+                              '<span class="profile-stats-item profile-stats-item-label">Following</span>'+
+                              '<span class="profile-stats-item profile-stats-item-number">'+data[0].followings+'</span>'+
+                              '</div><div class="col-md-4">'+
+                              '<span class="profile-stats-item profile-stats-item-label">Likes</span>'+
+                              '<span class="profile-stats-item profile-stats-item-number">5</span>'+
+                              '</div></div></div></div></div></div>';
+          profile_content +=  '<div>';
+          $('#profile_display').html(profile_content);
+         }
+
+
+         /*
+          when local user follow's a remote user
+          1. create a R_username_birb, and R_username_details tables in userData section
+          2. start sending a interest to get birb that he has published
+          3. store the birb in the users table file
+         */
+         function follow_user(remote_user_name){
+
+           createUser(remote_user_name, 'R'); //flag L indicates Local user, while F indicates followee
+           console.log("successfully followed user");
+           list_follow_suggestions();
+           // electron.remote.getGlobal('obj').username = username;
+           // window.location.href="index.html";
+           // $("#content").append(data);
+
+
+         }
+
+
       </script>
    </body>
 </html>
