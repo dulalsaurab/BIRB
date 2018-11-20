@@ -19,12 +19,7 @@
 
       <script>if (window.module) module = window.module;</script>
       <script>
-         // const db = require('electron-db');
-         // const electron = require('electron');
-         // const app = electron.app || electron.remote.app;
-         /*
-            check if a user already exist, if not redirect him to login page
-         */
+
          var username = electron.remote.getGlobal('obj').username.trim();
          if(username==''){
            console.log("You are not authorized to view this page!!");
@@ -112,6 +107,11 @@
            return new Promise(resolve => setTimeout(resolve, ms));
          }
 
+         function followee_handler(i_follow){
+
+            console.log(i_follow);
+
+         }
          function getTableNameFromUserName(username, f_user, f_type){
            /*
             @params: f_localUser, identify if a user is local or remote
@@ -129,33 +129,19 @@
         }
 
          function data_insertion(value){
-           let obj = new Object();
-           obj.id = new Date().toLocaleString();
-           obj.birb_text = value;
-           // first get the last published sequence number and insert with lastSeqnumber+1
 
-           var user_details = get_birb(L_user_detail_table_name);
-           // if (!Array.isArray(user_details) || !user_details.length) {
-           //         let obj_details = new Object();
-           //         obj_details.name = "";
-           //         obj_details.username = username;
-           //         obj_details.profile_url = "#";
-           //         obj_details.last_seqnumber = 1;
-           //         obj_details.followers=0;
-           //         obj_details.followings=0;
-           //         obj_details.likes=0;
-           //         insert_row(L_user_detail_table_name, obj_details)
-           //         obj.seq_number = 1;
-           //      }
-           //  // something was already publised earlier
-           //  else {
-          var lsn = user_details[0].last_seqnumber;
-          obj.seq_number = lsn+1; //this will be the sequence number of the birb
-          let where = { "username": username};
-          let set = { "last_seqnumber": lsn+1 }
-          update_row(L_user_detail_table_name, where, set)
-                // }
-          insert_row(L_user_birb_table_name, obj)
+             let obj = new Object();
+             obj.id = new Date().toLocaleString();
+             obj.birb_text = value;
+             // first get the last published sequence number and insert with lastSeqnumber+1
+             var user_details = get_birb(L_user_detail_table_name);
+             var lsn = user_details[0].last_seqnumber;
+             obj.seq_number = lsn+1; //this will be the sequence number of the birb
+             let where = { "username": username};
+             let set = { "last_seqnumber": lsn+1 }
+             update_row(L_user_detail_table_name, where, set)
+             insert_row(L_user_birb_table_name, obj)
+
          }
 
          function update_row(tablename, where, set){
@@ -181,9 +167,24 @@
              // data - array of objects that represents the rows.
                ret = data;
            })
-           console.log(ret, "this is null")
+           console.log(ret, "I am from get birb");
            return ret;
          }
+
+         function get_row(seq_number){
+             var row = null;
+             db.getRows(L_user_birb_table_name, {
+                 seq_number: seq_number
+             },(succ, result) => {
+                 row = result;
+                 console.log(result, "from get row");
+                 console.log("Success: " + succ);
+                 console.log(result);
+             })
+             console.log(row, "I am from get row");
+             return row;
+         }
+
          function list_follow_suggestions(){
            $.ajax({
                   type: "GET",
@@ -222,7 +223,7 @@
                     obj_details.name = "";
                     obj_details.username = username;
                     obj_details.profile_url = "#";
-                    obj_details.last_seqnumber = 1;
+                    obj_details.last_seqnumber = 0;
                     obj_details.followers=0;
                     obj_details.followings=0;
                     obj_details.likes=0;
@@ -233,6 +234,27 @@
             display_birb(data, username);
             display_user_profile();
             start_listening_on_prefix(username);
+            // request_data_from_producer
+            var i_f = getAllFollowedUser();
+              if (i_f === undefined || i_f.length == 0) {
+                  console.log("Haven't followed anyone yet")
+              }
+              else {
+                  //first check if some data exist from this follower or not
+                  for (var i in i_f)
+                  {
+                      var tn = "R_"+i_f[i]+"_details";
+                      if (get_birb(tn).length == 0);
+                      {
+                          console.log("no data in this user name")
+                          //get all the sequence number published
+                          var interest_prefix = "/birb/"+i_f[i]+"/";
+                          console.log(interest_prefix);
+                          request_data_from_producer(interest_prefix)
+                      }
+
+                  }
+              }
           });
 
           async function publish_birb(){
@@ -279,12 +301,10 @@
            await sleep(200); //since the database are file operation, every insertion requires some delay :(
            var data = get_birb(L_user_detail_table_name);
 
-           console.log(data, "(**(((*(*))()")
-
            var profile_content = '<div>';
            profile_content += '<div class="col profile-col"><div class="profile-header"><div class="card hovercard"><br />'+
                               '<div class="cardheader"></div><div class="avatar"><img alt="" src="'+data[0].profile_url+'">'+
-                              '</div><div class="info"><div class="title"><a target="_blank" href="#">'+data[0].username+'</a>'+
+                              '</div><div class="info"><div class="title"><br /><a target="_blank" href="#">'+data[0].username+'</a>'+
                               '</div><div class="desc">@'+data[0].username+'</div></div><div class="bottom"><div class="row">'+
                               '<div class="col-md-4"><span class="profile-stats-item profile-stats-item-label">Followers</span>'+
                               '<span class="profile-stats-item profile-stats-item-number">'+data[0].followers+'</span></div><div class="col-md-4">'+
@@ -308,12 +328,11 @@
          function follow_user(remote_user_name){
 
            createUser(remote_user_name, 'R'); //flag L indicates Local user, while F indicates followee
-           console.log("successfully followed user");
+           console.log("successfully followed a user");
            list_follow_suggestions();
            // electron.remote.getGlobal('obj').username = username;
            // window.location.href="index.html";
            // $("#content").append(data);
-
 
          }
 

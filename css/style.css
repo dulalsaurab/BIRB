@@ -40,12 +40,6 @@ a {
   color: #66757f;
 }
 
-/* .btn-circle {
-  border-radius: 50%;
-  width: 40px;
-  height: 40px; */
-  /* background-image: url(https://pbs.twimg.com/profile_images/679974972278849537/bzzb-6H4_normal.jpg); */
-/* } */
 
 .btn-search-bar {
   border-radius: 100px;
@@ -74,28 +68,8 @@ a {
 
 .profile-background {
   height: 320px;
-  /* background-image: url('https://pbs.twimg.com/profile_banners/439335622/1496682615/1500x500'); */
+  /* background-image: url(''); */
 }
-
-/* Main avatar */
-/* .avatar-container {
-  bottom: -87px;
-  left: 10px;
-  position: absolute;
-  transition: bottom .3s;
-  z-index: 3;
-}
-
-.avatar {
-  background: #fff; */
-  /* background-image: url(https://pbs.twimg.com/profile_images/679974972278849537/bzzb-6H4_400x400.jpg); */
-  /* border: 5px solid #fff;
-  border-radius: 50%;
-  height: 200px;
-  position: relative;
-  width: 200px;
-} */
-/* END: Main avatar */
 
 /* Stats Navbar elements' styles */
 .profile-stats {
@@ -472,7 +446,7 @@ a {
 }
 
 .card.hovercard .cardheader {
-    background: url("http://lorempixel.com/850/280/nature/4/");
+    background: url("https://i.redd.it/f71ibj4if32z.jpg");
     background-size: cover;
     height: 135px;
 }
@@ -518,5 +492,3 @@ a {
     padding: 0 20px;
     margin-bottom: 17px;
 }
-
-/* .btn{ border-radius: 50%; width:32px; height:32px; line-height:18px;  } */
