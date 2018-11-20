@@ -15,6 +15,7 @@
       <!-- include birb.js -->
       <script src='./user_data/birb.js'></script>
       <script src='./lib/user_management.js'></script>
+      <script src='./lib/nfd_operations.js'>
 
       <script>if (window.module) module = window.module;</script>
       <script>
@@ -90,6 +91,18 @@
             </div>
          </div>
       </div>
+      <!-- Footer -->
+      <hr />
+<footer class="page-footer font-small blue">
+
+  <!-- Copyright -->
+  <div class="footer-copyright text-center py-3">© 2018 Copyright:
+    <a href="https://github.com/dulalsaurab/BIRB/"> BIRB </a>
+  </div>
+  <!-- Copyright -->
+
+</footer>
+
       <script>
         // some file globals
          var L_user_detail_table_name = getTableNameFromUserName(username, 'L', 'details');
@@ -217,8 +230,9 @@
                  }
             list_follow_suggestions();
             var data = get_birb(L_user_birb_table_name);
-            display_birb(data);
+            display_birb(data, username);
             display_user_profile();
+            start_listening_on_prefix(username);
           });
 
           async function publish_birb(){
@@ -233,15 +247,16 @@
                 await sleep(200);
                 // clean the textarea field
                 $('#birb_birb').val('');
-                display_birb(get_birb(L_user_birb_table_name));
+                display_birb(get_birb(L_user_birb_table_name), username);
               }
           }
 
-         function display_birb(data){
+         function display_birb(data, publiser_name){
            var birb_content = '<div>';
            for (var i in data.reverse()) {
+             console.log(data);
              birb_content +=  '<ol class="tweet-list"><li class="tweet-card"><div class="tweet-content"><div class="tweet-header">'+
-                               '<span class="fullname"><strong>dulalsaurab</strong></span>'+
+                               '<span class="fullname"><strong>'+publiser_name+'</strong></span>'+
                                '<span class="tweet-time">- Jul 18</span></div><a>'+
                                '<img class="tweet-card-avatar" src="https://pbs.twimg.com/profile_images/678236509732999169/NCLXTZzS_400x400.jpg" alt="">'+
                                '</a><div class="tweet-text"><p class="" lang="es" data-aria-label-part="0">'+data[i]['birb_text']+
@@ -263,6 +278,9 @@
            */
            await sleep(200); //since the database are file operation, every insertion requires some delay :(
            var data = get_birb(L_user_detail_table_name);
+
+           console.log(data, "(**(((*(*))()")
+
            var profile_content = '<div>';
            profile_content += '<div class="col profile-col"><div class="profile-header"><div class="card hovercard"><br />'+
                               '<div class="cardheader"></div><div class="avatar"><img alt="" src="'+data[0].profile_url+'">'+
@@ -298,7 +316,6 @@
 
 
          }
-
 
       </script>
    </body>

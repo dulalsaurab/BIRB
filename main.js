@@ -19,6 +19,7 @@ const um = require('./lib/user_management');
 
 let mainWindow
 
+
 // First instantiate the class
 const store = new Store({
   // We'll call our data file 'user-preferences'
@@ -97,6 +98,10 @@ app.on('activate', function () {
   // dock icon is clicked and there are no other windows open.
   if (mainWindow === null) {
     createWindow()
+
+
+
+
   }
 })
 
