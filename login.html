@@ -7,9 +7,9 @@
       <link rel="icon" href="">
       <title>BIRB - NDN</title>
       <style>
-         /* Show it's not fixed to the top */
          body {
-         min-height: 75rem;
+             background: #e3f2fd;
+             min-height: 75rem;
          }
       </style>
       <!-- Insert this line above script imports  -->
@@ -33,7 +33,6 @@
       <script>if (window.module) module = window.module;</script>
       <script>
 
-          //var face = new Face(new WebSocketTransport(), WebSocketTransport.ConnectionInfo("localhost", 9696));
         var username = electron.remote.getGlobal('obj').username;
         if(username!=''){
           alert("You are already a member, lets go to main page!!");
@@ -66,9 +65,6 @@
                <div class="panel panel-login">
                   <div class="panel-heading">
                      <div class="row">
-                        <!-- <div class="col-md-6 col-sm-6">
-                           <a href="#" class="active" id="login-form-link">Login</a>
-                        </div> -->
                         <div class="col-md-6 col-sm-6 col-xs-6">
                            <a href="#" id="register-form-link">Register</a>
                         </div>
@@ -145,7 +141,7 @@
              var username = form.serializeArray()[0].value;
              checkUniqueness(username).then(function(result){
                if (result){
-                 console.log("Username already taken, please try again!!")
+                 console.log("Username already taken, please try again!!");
                  alert("Username already taken, please try again!!")
                }
                else
