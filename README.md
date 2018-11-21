@@ -1,6 +1,6 @@
 ## BIRB: A Distrubuted Social Media Applicaiont Using NDN
 
-**1. Requirements**
+**Requirements**
 
 **Major Requirements**
 
@@ -24,7 +24,7 @@
 
 * [ShellJS - Unix shell commands for Node.js](https://github.com/shelljs/shelljs)
 
-**2. Installation Process**
+**Installation Process**
 
 Before executing the application, all the major requirements needs to be installed properly
 
@@ -68,19 +68,19 @@ Before executing the application, all the major requirements needs to be install
 
 3. **Installing the APP BIRB**
 
-* Unzip the folder BIRB-master.zip or 
+   * Unzip the folder BIRB-master.zip or 
 
-* $ git clone https://github.com/dulalsaurab/BIRB.git
+   * $ git clone https://github.com/dulalsaurab/BIRB.git
 
-* $ cd BIRB
+   * $ cd BIRB
 
-* Open "nfd-operations" file and provide the path of ndn-js (downloaded above) on path variable “path-ndn”
+   * Open "nfd-operations" file and provide the path of ndn-js (downloaded above) on path variable “path-ndn”
 
-* $ npm install
+   * $ npm install
 
-* $ npm start
+   * $ npm start
 
-**3. Screenshots**
+**Screenshots**
 
 ![image alt text](image_0.png)![image alt text](image_1.png)
 
