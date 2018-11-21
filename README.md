@@ -63,9 +63,9 @@ Before executing the application, all the major requirements needs to be install
 
 **4. References**
 
-[1] [https://github.com/named-data/NFD](https://github.com/named-data/NFD)
-[2] [https://named-data.net/](https://named-data.net/)
-[3] [https://github.com/named-data/ndn-js](https://github.com/named-data/ndn-js)
-[4] [https://electronjs.org/](https://electronjs.org/)
-[5] [https://github.com/jvadillo/twitter-bootstrap](https://github.com/jvadillo/twitter-bootstrap)
+[1] [https://github.com/named-data/NFD](https://github.com/named-data/NFD)  
+[2] [https://named-data.net/](https://named-data.net/)  
+[3] [https://github.com/named-data/ndn-js](https://github.com/named-data/ndn-js)  
+[4] [https://electronjs.org/](https://electronjs.org/)   
+[5] [https://github.com/jvadillo/twitter-bootstrap](https://github.com/jvadillo/twitter-bootstrap)   
 
