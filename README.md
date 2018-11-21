@@ -57,9 +57,9 @@ Before executing the application, all the major requirements needs to be install
 
 **Screenshots**
 
-![image alt text](image_0.png)![image alt text](image_1.png)
+![image alt text](./docs/image_0.png)![image alt text](./docs/image_1.png)
 
-** **![image alt text](image_2.png)
+** **![image alt text](./docs/image_2.png)
 
 **4. References**
 
